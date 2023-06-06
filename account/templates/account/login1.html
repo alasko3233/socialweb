@@ -1,0 +1,65 @@
+{% extends "base.html" %} {% load static %}
+<!-- Ajoutez cette ligne pour charger les balises de bloc -->
+
+{% block title %}Log-in{% endblock %} {% block content %}
+<div class="wrapper bg-white">
+  
+  <div class=" text-center"><img style="width: 300px;" src="{% static 'images/loogocus.png' %}" alt=""
+    /></div>
+  <div class="h4 text-muted text-center pt-2">Connectez-vous</div>
+  <form class="pt-3" method="POST">
+    {% csrf_token %}
+    <div class="form-group py-2">
+      <div class="input-field">
+        <span class="far fa-user p-2"></span>
+        <input
+          type="text"
+          placeholder="Username "
+          required
+          name="username"
+          class=""
+        />
+      </div>
+    </div>
+    <div class="form-group py-1 pb-2">
+      <div class="input-field">
+        <span class="fas fa-lock p-2"></span>
+        <input
+          type="password"
+          placeholder="Enter your Password"
+          required
+          name="password"
+          class=""
+        />
+        <button class="btn bg-white text-muted">
+          <span class="far fa-eye-slash"></span>
+        </button>
+      </div>
+    </div>
+    <div class="d-flex align-items-start">
+      <div class="remember">
+        <label class="option text-muted">
+          Remember me <input type="radio" name="radio" />
+          <span class="checkmark"></span>
+        </label>
+      </div>
+      <div class="ml-auto"><a href="#" id="forgot">Forgot Password?</a></div>
+    </div>
+    <button class="col-12 btn btn-block text-center my-3">Log in</button>
+    <div class="text-center pt-3 text-muted">
+      Not a member? <a href="{% url 'register' %}">Sign up</a>
+    </div>
+    {% for message in messages %}
+    <div class="alert alert-danger alert-dismissible text-center" role="alert">
+      {{message}}
+      <button
+        type="button"
+        class="btn-close"
+        data-bs-dismiss="alert"
+        aria-label="Close"
+      ></button>
+    </div>
+    {% endfor %}
+  </form>
+</div>
+{% endblock %}
