@@ -136,7 +136,7 @@ def accueil(request):
     feed_lists = list(chain(*feed))
     # posts = Post.objects.all()
 
-    context = {'posts': feed_list}
+    context = {'posts': feed_lists}
 
     return render(request, 'account/dashboard.html', context)
 
