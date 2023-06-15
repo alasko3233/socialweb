@@ -3,6 +3,7 @@ from django.conf import settings
 import uuid
 from datetime import datetime
 from django.contrib.auth.models import User
+from django.contrib.auth.models import AbstractUser
 
 # Create your models here.
 
