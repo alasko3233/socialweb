@@ -6,7 +6,7 @@ from django.contrib.auth import logout
 from .forms import LoginForm, UserRegistrationForm, \
     UserEditForm, ProfileEditForm
 from django.contrib.auth.decorators import login_required
-from .models import FollowerCount, LikePost, Post, Profile
+from .models import Activity, Comment, FollowerCount, LikePost, Post, Profile
 from django.contrib import messages
 from django.contrib.auth.models import User
 
@@ -122,8 +122,12 @@ def dashboard(request):
 
 @login_required
 def accueil(request):
+    user = request.user
+
     user_follows_list = []
     feed = []
+    user_follings = FollowerCount.objects.filter(
+        user_name=request.user.username)
 
     user_folling = FollowerCount.objects.filter(follower=request.user.username)
 
@@ -135,8 +139,11 @@ def accueil(request):
         feed.append(feed_list)
     feed_lists = list(chain(*feed))
     # posts = Post.objects.all()
-
-    context = {'posts': feed_lists}
+    print(user_login)
+    context = {
+        'posts': feed_lists,
+        'user_follings': user_follings
+    }
 
     return render(request, 'account/dashboard.html', context)
 
@@ -178,6 +185,23 @@ def follow(request):
             return redirect('setting_accueil', userfollow)
     else:
         return redirect(request.META.get('HTTP_REFERER'))
+
+
+@login_required
+def comment(request):
+    user = request.user
+    comment = request.POST['comment']
+    post_id = request.POST['post_id']
+    post = Post.objects.get(id=post_id)
+    new_comment = Comment.objects.create(
+        user=user, post=post, body=comment)
+    new_comment.save()
+    user_of_post = User.objects.get(username=post.user)
+    type_of_activity = "Commenter"
+    new_activity = Activity.objects.create(
+        user=user_of_post, activity_type=type_of_activity, related_post=post, other_username=user.username)
+    new_activity.save()
+    return redirect(request.META.get('HTTP_REFERER'))
 
 
 @login_required

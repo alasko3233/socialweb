@@ -1,0 +1,103 @@
+
+{% extends "basec.html" %} {% load static %}
+<!-- Ajoutez cette ligne pour charger les balises de bloc -->
+{% block content %}
+<style>
+  .myscroll{
+    overflow-y: scroll;
+    overflow-x: hidden;
+  }
+</style>
+<div class="wrapper">
+  {% if user.is_authenticated %}
+  <input type="hidden" id="logged-in-user" value="{{ user.id }}">
+{% endif %}
+<div> <i class="fa-solid fa-user"></i>     Logged in as : {{ user.username }}
+  <div class="row justify-content-start mx-4 my-2">
+    <a  href="{% url 'accueil' %}"
+        class="btn btn-primary col-md-3 col-xl-3 col-sm-3  col-xxl-3 rounded-pill smalls">Accueil <i
+            data-feather='arrow-right'></i></a>
+</div>
+
+</div>
+  <div class="container">
+      <div class="left">
+          <div class="top">
+              <input type="text" placeholder="Search" />
+              <a href="javascript:;" class="search"></a>
+          </div>
+          <ul class="people">
+        {% for thread in Threads %}
+
+              <li class="person {% if forloop.first %}active{% endif %}" data-chat="person{{ thread.id }}"  other-user-id="
+              {% if thread.first_person == user %}
+                  {{ thread.second_person.id }}
+              {% else %}
+                  {{ thread.first_person.id }}
+              {% endif %}
+          " >
+                  <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/382994/thomas.jpg" alt="" />
+            {% if thread.first_person == user %}
+
+                  <span class="name">{{ thread.second_person.username }}</span>
+        {% else %}
+        <span class="name">{{ thread.first_person.username }}</span>
+
+        {% endif %}
+
+                  <span class="time">2:09 PM</span>
+                  <span class="preview">I was wondering...</span>
+              </li>
+        {% endfor %}
+
+
+          </ul>
+      </div>
+      <div class="right">
+          <div class="top"><span>To: <span class="name"></span></span></div>
+          {% for thread in Threads %}
+
+          <div class="chat   {% if forloop.first %}hide active-chat{% else %}hide{% endif %} " data-chat="person{{ thread.id }}" other-user-id="
+          {% if thread.first_person == user %}
+              {{ thread.second_person.id }}
+          {% else %}
+              {{ thread.first_person.id }}
+          {% endif %}
+      ">
+      <div class="myscroll msg_card_body " data-chat="person{{ thread.id }}">
+
+              <div class="conversation-start">
+                  <span>Today, 6:48 AM</span>
+              </div>
+
+      {% for chat in thread.chatmessage_thread.all %}
+      {% if chat.user == user %}
+
+              <div class="bubble me">
+                {{ chat.message }}
+              </div>
+          {% else %}
+          <div class="bubble you">
+            {{ chat.message }}
+        </div>
+          {% endif %}
+          {% endfor %}
+        </div>
+
+
+          </div>
+          {% endfor %}
+
+
+          <div class="write">
+            <form id="send-message-form">
+              <a href="javascript:;" class="write-link attach"></a>
+              <input type="text" class="input-message" id="input-message" />
+              <a href="javascript:;" class="write-link smiley"></a>
+              <a href="javascript:;" class="write-link send"></a>
+          </form>
+          </div>
+      </div>
+  </div>
+</div>
+  {% endblock %}

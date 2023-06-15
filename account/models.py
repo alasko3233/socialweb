@@ -2,6 +2,8 @@ from django.db import models
 from django.conf import settings
 import uuid
 from datetime import datetime
+from django.contrib.auth.models import User
+
 # Create your models here.
 
 
@@ -38,6 +40,14 @@ class Post(models.Model):
     def __str__(self):
         return self.user
 
+    def get_comments(self):
+        comments = Comment.objects.filter(post=self)
+        return comments
+
+    def get_comment_count(self):
+        comment_count = Comment.objects.filter(post=self).count()
+        return comment_count
+
 
 class LikePost(models.Model):
     post_id = models.CharField(max_length=500)
@@ -57,3 +67,63 @@ class FollowerCount(models.Model):
 
     def __str__(self):
         return self.user
+
+    def get_user_profile(self):
+        user = User.objects.get(username=self.follower)
+        return user.profile
+
+    def get_user_profile_image_url(self):
+        profile = self.get_user_profile()
+        if profile and profile.photo:
+            return profile.photo.url
+        return None
+
+
+class Comment(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL,
+                             on_delete=models.CASCADE, null=True)
+    post = models.ForeignKey(Post, on_delete=models.CASCADE)
+    body = models.TextField(max_length=300)
+    updated = models.DateTimeField(auto_now=True)
+    created = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return str(self.pk)
+
+    def get_username(self):
+        return self.user.username
+
+    def get_user_profile(self):
+        return self.user.profile
+
+    def get_user_profile_image_url(self):
+        profile = self.get_user_profile()
+        if profile and profile.photo:
+            return profile.photo.url
+        return None
+
+
+class Activity(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL,
+                             on_delete=models.CASCADE, null=True)
+    other_username = models.CharField(max_length=100, blank=True, null=True)
+    activity_type = models.CharField(max_length=100)
+    created_at = models.DateTimeField(default=datetime.now)
+    content = models.TextField(blank=True)
+    related_post = models.ForeignKey(
+        Post, on_delete=models.CASCADE, null=True, blank=True)
+    is_viewed = models.BooleanField(default=False)
+
+    def __str__(self):
+        return self.user
+
+    def other_user_profile(self):
+        user = User.objects.get(username=self.other_username)
+        profile = Profile.objects.get(user=user)
+        return profile
+
+    def other_user_profile_image_url(self):
+        profile = self.other_user_profile()
+        if profile and profile.photo:
+            return profile.photo.url
+        return None

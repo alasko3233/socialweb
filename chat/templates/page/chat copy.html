@@ -1,8 +1,7 @@
-
-{% extends "basec.html" %} {% load static %}
-<!-- Ajoutez cette ligne pour charger les balises de bloc -->
-{% block content %}
 <div class="myapp">
+  {% if user.is_authenticated %}
+  <input type="hidden" id="logged-in-user" value="{{ user.id }}">
+{% endif %}
     <div class="header">
       <div class="logoM">
         <svg
@@ -16,7 +15,11 @@
             fill="#fff"
           />
         </svg>
+
+
       </div>
+      <div>      Logged in as : {{ user.username }}</div>
+
       <div class="user-settings">
         <div class="dark-light">
           <svg
@@ -53,20 +56,30 @@
     </div>
     <div class="wrapper">
       <div class="conversation-area">
-        <div class="msg online active">
+        {% for thread in Threads %}
+
+        <div class="msg online {% if forloop.first %}active{% endif %}" chat-id="chat_{{ thread.id }}">
           <img
             class="msg-profile"
             src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/3364143/download+%281%29.png"
             alt=""
           />
           <div class="msg-detail">
-            <div class="msg-username">Madison Jones</div>
+            {% if thread.first_person == user %}
+            <div class="msg-username">{{ thread.second_person.username }}</div>
+        {% else %}
+        <div class="msg-username">{{ thread.first_person.username }}</div>
+        {% endif %}
+
+        <!-- <div class="msg-username">  Madison Jones</div> -->
             <div class="msg-content">
               <span class="msg-message">What time was our meet</span>
               <span class="msg-date">20m</span>
             </div>
           </div>
         </div>
+        {% endfor %}
+
         <!-- {/* <div class="msg ">
           <div class="msg-profile group">
             <svg
@@ -220,12 +233,24 @@
         {/* <button class="add"></button> */} -->
         <div class="overlay"></div>
       </div>
-      <div class="chat-area ">
+
+      <div class="chat-area {% if forloop.first %}hide is_active{% else %}hide{% endif %}" chat-id="chat_{{ thread.id }}" other-user-id="
+      {% if thread.first_person == user %}
+          {{ thread.second_person.id }}
+      {% else %}
+          {{ thread.first_person.id }}
+      {% endif %}
+  ">
         <div class="chat-area-header">
           <div class="chat-area-title">Madison Jones</div>
           <div class="chat-area-group"></div>
         </div>
+      {% for thread in Threads %}
+
         <div class="chat-area-main msg_card_body">
+      {% for chat in thread.chatmessage_thread.all %}
+
+          {% if chat.user == user %}
           <div class="chat-msg owner">
             <div class="chat-msg-profile">
               <img
@@ -233,18 +258,15 @@
                 src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/3364143/download+%282%29.png"
                 alt=""
               />
-              <div class="chat-msg-date">Message seen 1.22pm</div>
+              <div class="chat-msg-date">{{ chat.timestamp|date:"d D" }}, {{ chat.timestamp|time:"H:i" }}</div>
             </div>
             <div class="chat-msg-content">
               <div class="chat-msg-text">
-                Sit amet risus nullam eget felis eget. Dolor sed viverra
-                ipsum😂😂😂
-              </div>
-              <div class="chat-msg-text">
-                Cras mollis nec arcu malesuada tincidunt.
+                {{ chat.message }}
               </div>
             </div>
           </div>
+          {% else %}
           <div class="chat-msg">
             <div class="chat-msg-profile">
               <img
@@ -252,85 +274,26 @@
                 src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/3364143/download+%281%29.png"
                 alt=""
               />
-              <div class="chat-msg-date">Message seen 2.45pm</div>
+              <div class="chat-msg-date">{{ chat.timestamp|date:"d D" }}, {{ chat.timestamp|time:"H:i" }}</div>
             </div>
             <div class="chat-msg-content">
               <div class="chat-msg-text">
-                Aenean tristique maximus tortor non tincidunt. Vestibulum
-                ante ipsum primis in faucibus orci luctus et ultrices
-                posuere cubilia curae😊
-              </div>
-              <div class="chat-msg-text">
-                Ut faucibus pulvinar elementum integer enim neque volutpat.
+                {{ chat.message }}
               </div>
             </div>
           </div>
-          <div class="chat-msg owner">
-            <div class="chat-msg-profile">
-              <img
-                class="chat-msg-img"
-                src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/3364143/download+%282%29.png"
-                alt=""
-              />
-              <div class="chat-msg-date">Message seen 2.50pm</div>
-            </div>
-            <div class="chat-msg-content">
-              <div class="chat-msg-text">
-                posuere eget augue sodales, aliquet posuere eros.
-              </div>
-              <div class="chat-msg-text">
-                Cras mollis nec arcu malesuada tincidunt.
-              </div>
-            </div>
-          </div>
-          <div class="chat-msg">
-            <div class="chat-msg-profile">
-              <img
-                class="msg-profile"
-                src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/3364143/download+%281%29.png"
-                alt=""
-              />
-              <div class="chat-msg-date">Message seen 3.16pm</div>
-            </div>
-            <div class="chat-msg-content">
-              <div class="chat-msg-text">
-                Egestas tellus rutrum tellus pellentesque
-              </div>
-            </div>
-          </div>
-          <div class="chat-msg owner">
-            <div class="chat-msg-profile">
-              <img
-                class="chat-msg-img"
-                src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/3364143/download+%282%29.png"
-                alt=""
-              />
-              <div class="chat-msg-date">Message seen 2.50pm</div>
-            </div>
-            <div class="chat-msg-content">
-              <div class="chat-msg-text">
-                Tincidunt arcu non sodales😂
-              </div>
-            </div>
-          </div>
-          <div class="chat-msg">
-            <div class="chat-msg-profile">
-              <img
-                class="msg-profile"
-                src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/3364143/download+%281%29.png"
-                alt=""
-              />
-              <div class="chat-msg-date">Message seen 3.16pm</div>
-            </div>
-            <div class="chat-msg-content">
-              <div class="chat-msg-text">
-                Consectetur adipiscing elit pellentesque habitant morbi
-                tristique senectus et🥰
-              </div>
-            </div>
-          </div>
+
+          {% endif %}
+
+          {% endfor %}
+
+
+
         </div>
-        <div class="chat-area-footer">
+
+        {% endfor %}
+
+        <div class="chat-area-footer fixed-bottom">
 							<form id="send-message-form">
 
           <svg
@@ -525,4 +488,3 @@
       </div>
     </div>
   </div>
-  {% endblock %}

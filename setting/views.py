@@ -67,6 +67,8 @@ def account_setting_edit(request):
 
 
 def setting_accueil(request, pk):
+    user_follings = FollowerCount.objects.filter(
+        user_name=pk)
     user_object = User.objects.get(username=pk)
     profil_of_user = Profile.objects.get(user=user_object)
     posts_user = Post.objects.filter(user=user_object)
@@ -90,18 +92,23 @@ def setting_accueil(request, pk):
         'btn': btn,
         'user_followers': user_followers,
         'user_followings': user_followings,
+        'user_follings': user_follings
+
 
     }
     user = request.user
-    if request.method == 'POST':
-        caption = request.POST['caption']
-        images = request.FILES.get('image')
-        new_post = Post.objects.create(
-            user=user, image=images, caption=caption, user_name=user.username)
-        new_post.save()
-        messages.info(request, 'Post publié')
-        return redirect('setting_accueil', user.username)
     return render(request, 'settings/pages/accueil.html', context)
+
+
+def post(request):
+    user = request.user
+    caption = request.POST['caption']
+    images = request.FILES.get('image')
+    new_post = Post.objects.create(
+        user=user, image=images, caption=caption, user_name=user.username)
+    new_post.save()
+    messages.info(request, 'Post publié')
+    return redirect('accueil')
 
 
 def profile(request, pk):
@@ -172,6 +179,8 @@ def setting_amis(request, pk):
         identique = None
     user_followers = len(FollowerCount.objects.filter(follower=pk))
     user_followings = len(FollowerCount.objects.filter(user_name=pk))
+    followers = FollowerCount.objects.filter(follower=pk)
+    followings = FollowerCount.objects.filter(user_name=pk)
 
     context = {
         'userS': user_object,
@@ -181,6 +190,9 @@ def setting_amis(request, pk):
         'btn': btn,
         'user_followers': user_followers,
         'user_followings': user_followings,
+        'followings': followings,
+        'followers': followers,
+
 
     }
     return render(request, 'settings/pages/amis.html', context)

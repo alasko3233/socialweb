@@ -2,82 +2,77 @@
 <!-- Ajoutez cette ligne pour charger les balises de bloc -->
 
 {% block title %}Log-in{% endblock %} {% block content %}
-<div class="wrapper bg-white">
-  <div class=" text-center"><img style="width: 300px;" src="{% static 'images/loogocus.png' %}" alt=""
-    /></div>  <div class="h4 text-muted text-center pt-2">Enregistrement</div>
-  <form class="pt-3" method="POST">
-    {% csrf_token %}
-    <div class="form-group py-2">
-      <div class="input-field">
-        <span class="far fa-user p-2"></span>
-        <input
-          type="text"
-          placeholder="Username"
-          required
-          name="username"
-          class=""
-        />
-      </div>
-    </div>
-    <div class="form-group py-2">
-      <div class="input-field">
-        <span class="far fa-user p-2"></span>
-        <input
-          type="text"
-          placeholder="Email Address"
-          name="email"
-          required
-          class=""
-        />
-      </div>
-    </div>
+<div class="theme-layout">
+	<div class="container-fluid pdng0">
+		<div class="row merged">
+			<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+				<div class="land-featurearea">
+					<div class="land-meta">
+						<h1>Winku</h1>
+						<p>
+							Winku is free to use for as long as you want with two active projects.
+						</p>
+						<div class="friend-logo">
+							<span><img src="{% static 'images/mylogo.png' %}" alt=""></span>
+						</div>
+						<a href="#" title="" class="folow-me">Follow Us on</a>
+					</div>	
+				</div>
+			</div>
+			<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+				<div class="login-reg-bg">
+					<div class="log-reg-area sign">
+            {% for message in messages %}
+            <div class="alert alert-danger alert-dismissible text-center" role="alert">
+              {{message}}
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="alert"
+                aria-label="Close"
+              ></button>
+            </div>
+            {% endfor %}
+        
+						<h2 class="log-title">Register</h2>
+							<p>
+								Don’t use Winku Yet? <a href="#" title="">Take the tour</a> or <a href="#" title="">Join now</a>
+							</p>
+              <form class="pt-3" method="POST">
+                {% csrf_token %}		
 
-    <div class="form-group py-1 pb-2">
-      <div class="input-field">
-        <span class="fas fa-lock p-2"></span>
-        <input
-          type="password"
-          placeholder="Enter your Password"
-          name="password"
-          required
-          class=""
-        />
-        <button class="btn bg-white text-muted">
-          <span class="far fa-eye-slash"></span>
-        </button>
-      </div>
-    </div>
-    <div class="form-group py-1 pb-2">
-      <div class="input-field">
-        <span class="fas fa-lock p-2"></span>
-        <input
-          type="password"
-          placeholder="Repeat your Password"
-          name="password2"
-          required
-          class=""
-        />
-        <button class="btn bg-white text-muted">
-          <span class="far fa-eye-slash"></span>
-        </button>
-      </div>
-    </div>
+							<div class="form-group">	
+							  <input type="text"  name="username" autocomplete="off" required="required"/>
+							  <label class="control-label" for="input">User Name</label><i class="mtrl-select"></i>
+							</div>
+							<div class="form-group">	
+							  <input type="password" autocomplete="new-password" name="password" required="required"/>
+							  <label class="control-label" for="input">Password</label><i class="mtrl-select"></i>
+							</div>
+							<div class="form-group">	
+							  <input type="password" autocomplete="new-password" name="password2" required="required"/>
+							  <label class="control-label" for="input">Repeat Password</label><i class="mtrl-select"></i>
+							</div>
+							<div class="form-group">	
+							  <input type="text" name="email" autocomplete="off" required="required"/>
+							  <label class="control-label" for="input"><a href="#" class="__cf_email__" data-cfemail="6c29010d05002c">email</a></label><i class="mtrl-select"></i>
+							</div>
+							
+							<div class="submit-btns">
+								<button class="mtr-btn " type="submit"><span>Register</span></button>
+							</div>
+						</form>
+            <div class=" text-nowrap float-end col-12">
+              <span class="already-have">Already have an account</span>
+              <a href="{% url 'login' %}" class="mtr-btn signup" ><span>login</span></a>
 
-    <button class="col-12 btn btn-block text-center my-3">Sign Up</button>
-    <div class="text-center pt-3 text-muted">
-      Vous ete membres? <a href="{% url 'login' %}">Connect</a>
-    </div>
-    {% for message in messages %}
-    <div class="alert alert-danger alert-dismissible text-center" role="alert">
-      {{message}}
-      <button
-        type="button"
-        class="btn-close"
-        data-bs-dismiss="alert"
-        aria-label="Close"
-      ></button>
-    </div>
-    {% endfor %}
-  </form>
+            </div>
+
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 </div>
+
 {% endblock %}

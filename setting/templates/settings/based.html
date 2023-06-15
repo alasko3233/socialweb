@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content="" />
     <meta name="keywords" content="" />
-    <link rel="icon" href="images/fav.png" type="image/png" sizes="16x16" />
+    <link rel="icon" href="{% static 'images/mylogoi.png' %}" type="image/png" sizes="16x16" />
     <link rel="stylesheet" href="{% static 'css/main.min.css' %}" />
     <link rel="stylesheet" href="{% static 'css/style.css' %}" />
     <link rel="stylesheet" href="{% static 'css/color.css' %}" />
@@ -22,7 +22,7 @@
           </span>
           <span class="mh-text">
             <a href="{% url 'dashboard' %}" title=""
-              ><img style="width: 100px;" src="{% static 'images/logoc.png' %}" alt=""
+              ><img style="width: 100px;" src="{% static 'images/mylogoc.png' %}" alt=""
             /></a>
           </span>
           <span class="mh-btns-right">
@@ -450,86 +450,37 @@
             </li>
             <li>
               <a href="#" title="Notification" data-ripple="">
-                <i class="ti-bell"></i><span>20</span>
+                <i class="ti-bell"></i><span>{{total_activities}}</span>
               </a>
               <div class="dropdowns">
-                <span>4 New Notifications</span>
+                <span>{{total_activities}} New Notifications</span>
                 <ul class="drops-menu">
+                  {% for activitie in user_activities %}
+
                   <li>
                     <a href="notifications.html" title="">
+                      {% if activitie.other_user_profile_image_url %}
                       <img
-                        src="{% static 'images/resources/thumb-1.jpg' %}"
-                        alt=""
+                        src="{{ activitie.other_user_profile_image_url }}"
+                        alt="Profil Image"
                       />
-                      <div class="mesg-meta">
-                        <h6>sarah Loren</h6>
-                        <span>Hi, how r u dear ...?</span>
-                        <i>2 min ago</i>
+                      {% else %}
+                      <img src="{% static 'default/user.png' %}" alt="" />
+
+                      {% endif %}                       <div class="mesg-meta">
+                        <h6>{{activitie.other_username}}</h6>
+                        <span>A {{activitie.activity_type}}</span>
+                        <i>il ya :{{activitie.created_at|timesince}}</i>
                       </div>
                     </a>
                     <span class="tag green">New</span>
                   </li>
-                  <li>
-                    <a href="notifications.html" title="">
-                      <img
-                        src="{% static 'images/resources/thumb-2.jpg' %}"
-                        alt=""
-                      />
-                      <div class="mesg-meta">
-                        <h6>Jhon doe</h6>
-                        <span>Hi, how r u dear ...?</span>
-                        <i>2 min ago</i>
-                      </div>
-                    </a>
-                    <span class="tag red">Reply</span>
-                  </li>
-                  <li>
-                    <a href="notifications.html" title="">
-                      <img
-                        src="{% static 'images/resources/thumb-3.jpg' %}"
-                        alt=""
-                      />
-                      <div class="mesg-meta">
-                        <h6>Andrew</h6>
-                        <span>Hi, how r u dear ...?</span>
-                        <i>2 min ago</i>
-                      </div>
-                    </a>
-                    <span class="tag blue">Unseen</span>
-                  </li>
-                  <li>
-                    <a href="notifications.html" title="">
-                      <img
-                        src="{% static 'images/resources/thumb-4.jpg' %}"
-                        alt=""
-                      />
-                      <div class="mesg-meta">
-                        <h6>Tom cruse</h6>
-                        <span>Hi, how r u dear ...?</span>
-                        <i>2 min ago</i>
-                      </div>
-                    </a>
-                    <span class="tag">New</span>
-                  </li>
-                  <li>
-                    <a href="notifications.html" title="">
-                      <img
-                        src="{% static 'images/resources/thumb-5.jpg' %}"
-                        alt=""
-                      />
-                      <div class="mesg-meta">
-                        <h6>Amy</h6>
-                        <span>Hi, how r u dear ...?</span>
-                        <i>2 min ago</i>
-                      </div>
-                    </a>
-                    <span class="tag">New</span>
-                  </li>
+                  {% endfor %}
                 </ul>
                 <a href="notifications.html" title="" class="more-mesg"
                   >view more</a
                 >
-              </div>
+              </div>            
             </li>
             <li>
               <a href="#" title="Messages" data-ripple=""

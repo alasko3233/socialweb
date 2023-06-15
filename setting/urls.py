@@ -8,6 +8,7 @@ urlpatterns = [
     path('about/<str:pk>', views.setting_about, name='setting_about'),
     path('amis/<str:pk>', views.setting_amis, name='setting_amis'),
     path('profile/<str:pk>', views.profile, name='profile'),
+    path('post/', views.post, name='post'),
 
 
 

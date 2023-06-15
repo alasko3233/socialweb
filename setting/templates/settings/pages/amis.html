@@ -14,82 +14,7 @@
           <div class="row" id="page-contents">
             <div class="col-lg-3">
               <aside class="sidebar static">
-                <div class="widget">
-                  <h4 class="widget-title">Shortcuts</h4>
-                  <ul class="naves">
-                    <li>
-                      <i class="ti-clipboard"></i>
-                      <a href="newsfeed.html" title="">News feed</a>
-                    </li>
-                    <li>
-                      <i class="ti-mouse-alt"></i>
-                      <a href="inbox.html" title="">Inbox</a>
-                    </li>
-                    <li>
-                      <i class="ti-files"></i>
-                      <a href="fav-page.html" title="">My pages</a>
-                    </li>
-                    <li>
-                      <i class="ti-user"></i>
-                      <a href="timeline-friends.html" title="">friends</a>
-                    </li>
-                    <li>
-                      <i class="ti-image"></i>
-                      <a href="timeline-photos.html" title="">images</a>
-                    </li>
-                    <li>
-                      <i class="ti-video-camera"></i>
-                      <a href="timeline-videos.html" title="">videos</a>
-                    </li>
-                    <li>
-                      <i class="ti-comments-smiley"></i>
-                      <a href="messages.html" title="">Messages</a>
-                    </li>
-                    <li>
-                      <i class="ti-bell"></i>
-                      <a href="notifications.html" title="">Notifications</a>
-                    </li>
-                    <li>
-                      <i class="ti-share"></i>
-                      <a href="people-nearby.html" title="">People Nearby</a>
-                    </li>
-                    <li>
-                      <i class="fa fa-bar-chart-o"></i>
-                      <a href="insights.html" title="">insights</a>
-                    </li>
-                    <li>
-                      <i class="ti-power-off"></i>
-                      <a href="landing.html" title="">Logout</a>
-                    </li>
-                  </ul>
-                </div>
                 <!-- Shortcuts -->
-                <div class="widget stick-widget">
-                  <h4 class="widget-title">Profile intro</h4>
-                  <ul class="short-profile">
-                    <li>
-                      <span>about</span>
-                      <p>
-                        Hi, i am jhon kates, i am 32 years old and worked as a
-                        web developer in microsoft company.
-                      </p>
-                    </li>
-                    <li>
-                      <span>fav tv show</span>
-                      <p>
-                        Hi, i am jhon kates, i am 32 years old and worked as a
-                        web developer in microsoft company.
-                      </p>
-                    </li>
-                    <li>
-                      <span>favourit music</span>
-                      <p>
-                        Hi, i am jhon kates, i am 32 years old and worked as a
-                        web developer in microsoft company.
-                      </p>
-                    </li>
-                  </ul>
-                </div>
                 <!-- profile intro widget -->
               </aside>
             </div>
@@ -100,14 +25,14 @@
                   <ul class="nav nav-tabs">
                     <li class="nav-item">
                       <a class="active" href="#frends" data-toggle="tab"
-                        >My Friends</a
+                        >followings</a
                       >
-                      <span>55</span>
+                      <span>{{user_followings}}</span>
                     </li>
                     <li class="nav-item">
                       <a class="" href="#frends-req" data-toggle="tab"
-                        >Friend Requests</a
-                      ><span>60</span>
+                        >followers</a
+                      ><span>{{user_followers}}</span>
                     </li>
                   </ul>
 
@@ -115,242 +40,33 @@
                   <div class="tab-content">
                     <div class="tab-pane active fade show" id="frends">
                       <ul class="nearby-contct">
+                  {% for follow in followings %}
+
                         <li>
                           <div class="nearly-pepls">
                             <figure>
-                              <a href="time-line.html" title=""
-                                ><img
-                                  src="images/resources/friend-avatar9.jpg"
-                                  alt=""
-                              /></a>
+                              <a href="{% url 'setting_accueil' follow.follower %}" title="">
+                                {% if follow.get_user_profile_image_url %}
+                                <img
+                                  src="{{ follow.get_user_profile_image_url }}"
+                                  alt="Profil Image"
+                                />
+                                {% else %}
+                                <img src="{% static 'default/user.png' %}" alt="" />
+          
+                                {% endif %}
+                            </a>
                             </figure>
                             <div class="pepl-info">
                               <h4>
-                                <a href="time-line.html" title="">jhon kates</a>
+                                <a href="{% url 'setting_accueil' follow.follower %}" title="">{{follow.follower}}</a>
                               </h4>
-                              <span>ftv model</span>
-                              <a
-                                href="#"
-                                title=""
-                                class="add-butn more-action"
-                                data-ripple=""
-                                >unfriend</a
-                              >
-                              <a
-                                href="#"
-                                title=""
-                                class="add-butn"
-                                data-ripple=""
-                                >add friend</a
-                              >
                             </div>
                           </div>
                         </li>
-                        <li>
-                          <div class="nearly-pepls">
-                            <figure>
-                              <a href="time-line.html" title=""
-                                ><img src="images/resources/nearly1.jpg" alt=""
-                              /></a>
-                            </figure>
-                            <div class="pepl-info">
-                              <h4>
-                                <a href="time-line.html" title=""
-                                  >sophia Gate</a
-                                >
-                              </h4>
-                              <span>tv actresses</span>
-                              <a
-                                href="#"
-                                title=""
-                                class="add-butn more-action"
-                                data-ripple=""
-                                >unfriend</a
-                              >
-                              <a
-                                href="#"
-                                title=""
-                                class="add-butn"
-                                data-ripple=""
-                                >add friend</a
-                              >
-                            </div>
-                          </div>
-                        </li>
-                        <li>
-                          <div class="nearly-pepls">
-                            <figure>
-                              <a href="time-line.html" title=""
-                                ><img src="images/resources/nearly2.jpg" alt=""
-                              /></a>
-                            </figure>
-                            <div class="pepl-info">
-                              <h4>
-                                <a href="time-line.html" title="">sara grey</a>
-                              </h4>
-                              <span>work at IBM</span>
-                              <a
-                                href="#"
-                                title=""
-                                class="add-butn more-action"
-                                data-ripple=""
-                                >unfriend</a
-                              >
-                              <a
-                                href="#"
-                                title=""
-                                class="add-butn"
-                                data-ripple=""
-                                >add friend</a
-                              >
-                            </div>
-                          </div>
-                        </li>
-                        <li>
-                          <div class="nearly-pepls">
-                            <figure>
-                              <a href="time-line.html" title=""
-                                ><img src="images/resources/nearly3.jpg" alt=""
-                              /></a>
-                            </figure>
-                            <div class="pepl-info">
-                              <h4>
-                                <a href="time-line.html" title="">Sexy cat</a>
-                              </h4>
-                              <span>Student</span>
-                              <a
-                                href="#"
-                                title=""
-                                class="add-butn more-action"
-                                data-ripple=""
-                                >unfriend</a
-                              >
-                              <a
-                                href="#"
-                                title=""
-                                class="add-butn"
-                                data-ripple=""
-                                >add friend</a
-                              >
-                            </div>
-                          </div>
-                        </li>
-                        <li>
-                          <div class="nearly-pepls">
-                            <figure>
-                              <a href="time-line.html" title=""
-                                ><img src="images/resources/nearly4.jpg" alt=""
-                              /></a>
-                            </figure>
-                            <div class="pepl-info">
-                              <h4>
-                                <a href="time-line.html" title="">Sara grey</a>
-                              </h4>
-                              <span>ftv model</span>
-                              <a
-                                href="#"
-                                title=""
-                                class="add-butn more-action"
-                                data-ripple=""
-                                >unfriend</a
-                              >
-                              <a
-                                href="#"
-                                title=""
-                                class="add-butn"
-                                data-ripple=""
-                                >add friend</a
-                              >
-                            </div>
-                          </div>
-                        </li>
-                        <li>
-                          <div class="nearly-pepls">
-                            <figure>
-                              <a href="time-line.html" title=""
-                                ><img src="images/resources/nearly5.jpg" alt=""
-                              /></a>
-                            </figure>
-                            <div class="pepl-info">
-                              <h4>
-                                <a href="time-line.html" title="">Amy watson</a>
-                              </h4>
-                              <span>Study in university</span>
-                              <a
-                                href="#"
-                                title=""
-                                class="add-butn more-action"
-                                data-ripple=""
-                                >unfriend</a
-                              >
-                              <a
-                                href="#"
-                                title=""
-                                class="add-butn"
-                                data-ripple=""
-                                >add friend</a
-                              >
-                            </div>
-                          </div>
-                        </li>
-                        <li>
-                          <div class="nearly-pepls">
-                            <figure>
-                              <a href="time-line.html" title=""
-                                ><img src="images/resources/nearly6.jpg" alt=""
-                              /></a>
-                            </figure>
-                            <div class="pepl-info">
-                              <h4>
-                                <a href="time-line.html" title="">caty lasbo</a>
-                              </h4>
-                              <span>work as dancers</span>
-                              <a
-                                href="#"
-                                title=""
-                                class="add-butn more-action"
-                                data-ripple=""
-                                >unfriend</a
-                              >
-                              <a
-                                href="#"
-                                title=""
-                                class="add-butn"
-                                data-ripple=""
-                                >add friend</a
-                              >
-                            </div>
-                          </div>
-                        </li>
-                        <li>
-                          <div class="nearly-pepls">
-                            <figure>
-                              <a href="time-line.html" title=""
-                                ><img src="images/resources/nearly2.jpg" alt=""
-                              /></a>
-                            </figure>
-                            <div class="pepl-info">
-                              <h4>
-                                <a href="time-line.html" title="">Ema watson</a>
-                              </h4>
-                              <span>personal business</span>
-                              <a
-                                href="#"
-                                title=""
-                                class="add-butn more-action"
-                                data-ripple=""
-                                >unfriend</a
-                              >
-                              <a
-                                href="#"
-                                title=""
-                                class="add-butn"
-                                data-ripple=""
-                                >add friend</a
-                              >
-                            </div>
-                          </div>
-                        </li>
+
+                        {% endfor %}
+   
                       </ul>
                       <div class="lodmore">
                         <button class="btn-view btn-load-more"></button>
@@ -358,245 +74,34 @@
                     </div>
                     <div class="tab-pane fade" id="frends-req">
                       <ul class="nearby-contct">
-                        <li>
-                          <div class="nearly-pepls">
-                            <figure>
-                              <a href="time-line.html" title=""
-                                ><img src="images/resources/nearly5.jpg" alt=""
-                              /></a>
-                            </figure>
-                            <div class="pepl-info">
-                              <h4>
-                                <a href="time-line.html" title="">Amy watson</a>
-                              </h4>
-                              <span>ftv model</span>
-                              <a
-                                href="#"
-                                title=""
-                                class="add-butn more-action"
-                                data-ripple=""
-                                >delete Request</a
-                              >
-                              <a
-                                href="#"
-                                title=""
-                                class="add-butn"
-                                data-ripple=""
-                                >Confirm</a
-                              >
-                            </div>
-                          </div>
-                        </li>
+                  {% for follow in followers %}
 
                         <li>
                           <div class="nearly-pepls">
                             <figure>
-                              <a href="time-line.html" title=""
-                                ><img src="images/resources/nearly1.jpg" alt=""
-                              /></a>
-                            </figure>
-                            <div class="pepl-info">
-                              <h4>
-                                <a href="time-line.html" title=""
-                                  >sophia Gate</a
+                              <a href="{% url 'setting_accueil' follow.user_name %}" title=""
                                 >
-                              </h4>
-                              <span>ftv model</span>
-                              <a
-                                href="#"
-                                title=""
-                                class="add-butn more-action"
-                                data-ripple=""
-                                >delete Request</a
-                              >
-                              <a
-                                href="#"
-                                title=""
-                                class="add-butn"
-                                data-ripple=""
-                                >Confirm</a
-                              >
-                            </div>
-                          </div>
-                        </li>
-                        <li>
-                          <div class="nearly-pepls">
-                            <figure>
-                              <a href="time-line.html" title=""
-                                ><img src="images/resources/nearly6.jpg" alt=""
-                              /></a>
+                                {% if follow.get_user_profile_image_url %}
+                                <img
+                                  src="{{ follow.get_user_profile_image_url }}"
+                                  alt="Profil Image"
+                                />
+                                {% else %}
+                                <img src="{% static 'default/user.png' %}" alt="" />
+          
+                                {% endif %} 
+                                                              </a>
                             </figure>
                             <div class="pepl-info">
                               <h4>
-                                <a href="time-line.html" title="">caty lasbo</a>
+                                <a href="{% url 'setting_accueil' follow.user_name %}" title="">{{follow.user_name}}</a>
                               </h4>
-                              <span>ftv model</span>
-                              <a
-                                href="#"
-                                title=""
-                                class="add-butn more-action"
-                                data-ripple=""
-                                >delete Request</a
-                              >
-                              <a
-                                href="#"
-                                title=""
-                                class="add-butn"
-                                data-ripple=""
-                                >Confirm</a
-                              >
                             </div>
                           </div>
                         </li>
-                        <li>
-                          <div class="nearly-pepls">
-                            <figure>
-                              <a href="time-line.html" title=""
-                                ><img
-                                  src="images/resources/friend-avatar9.jpg"
-                                  alt=""
-                              /></a>
-                            </figure>
-                            <div class="pepl-info">
-                              <h4>
-                                <a href="time-line.html" title="">jhon kates</a>
-                              </h4>
-                              <span>ftv model</span>
-                              <a
-                                href="#"
-                                title=""
-                                class="add-butn more-action"
-                                data-ripple=""
-                                >delete Request</a
-                              >
-                              <a
-                                href="#"
-                                title=""
-                                class="add-butn"
-                                data-ripple=""
-                                >Confirm</a
-                              >
-                            </div>
-                          </div>
-                        </li>
-                        <li>
-                          <div class="nearly-pepls">
-                            <figure>
-                              <a href="time-line.html" title=""
-                                ><img src="images/resources/nearly2.jpg" alt=""
-                              /></a>
-                            </figure>
-                            <div class="pepl-info">
-                              <h4>
-                                <a href="time-line.html" title="">sara grey</a>
-                              </h4>
-                              <span>ftv model</span>
-                              <a
-                                href="#"
-                                title=""
-                                class="add-butn more-action"
-                                data-ripple=""
-                                >delete Request</a
-                              >
-                              <a
-                                href="#"
-                                title=""
-                                class="add-butn"
-                                data-ripple=""
-                                >Confirm</a
-                              >
-                            </div>
-                          </div>
-                        </li>
-                        <li>
-                          <div class="nearly-pepls">
-                            <figure>
-                              <a href="time-line.html" title=""
-                                ><img src="images/resources/nearly4.jpg" alt=""
-                              /></a>
-                            </figure>
-                            <div class="pepl-info">
-                              <h4>
-                                <a href="time-line.html" title="">Sara grey</a>
-                              </h4>
-                              <span>ftv model</span>
-                              <a
-                                href="#"
-                                title=""
-                                class="add-butn more-action"
-                                data-ripple=""
-                                >delete Request</a
-                              >
-                              <a
-                                href="#"
-                                title=""
-                                class="add-butn"
-                                data-ripple=""
-                                >Confirm</a
-                              >
-                            </div>
-                          </div>
-                        </li>
-                        <li>
-                          <div class="nearly-pepls">
-                            <figure>
-                              <a href="time-line.html" title=""
-                                ><img src="images/resources/nearly3.jpg" alt=""
-                              /></a>
-                            </figure>
-                            <div class="pepl-info">
-                              <h4>
-                                <a href="time-line.html" title="">Sexy cat</a>
-                              </h4>
-                              <span>ftv model</span>
-                              <a
-                                href="#"
-                                title=""
-                                class="add-butn more-action"
-                                data-ripple=""
-                                >delete Request</a
-                              >
-                              <a
-                                href="#"
-                                title=""
-                                class="add-butn"
-                                data-ripple=""
-                                >Confirm</a
-                              >
-                            </div>
-                          </div>
-                        </li>
-                        <li>
-                          <div class="nearly-pepls">
-                            <figure>
-                              <a href="time-line.html" title=""
-                                ><img
-                                  src="images/resources/friend-avatar9.jpg"
-                                  alt=""
-                              /></a>
-                            </figure>
-                            <div class="pepl-info">
-                              <h4>
-                                <a href="time-line.html" title="">jhon kates</a>
-                              </h4>
-                              <span>ftv model</span>
-                              <a
-                                href="#"
-                                title=""
-                                class="add-butn more-action"
-                                data-ripple=""
-                                >delete Request</a
-                              >
-                              <a
-                                href="#"
-                                title=""
-                                class="add-butn"
-                                data-ripple=""
-                                >Confirm</a
-                              >
-                            </div>
-                          </div>
-                        </li>
+                  {% endfor %}
+                  
+
                       </ul>
                       <button class="btn-view btn-load-more"></button>
                     </div>
@@ -607,58 +112,6 @@
             <!-- centerl meta -->
             <div class="col-lg-3">
               <aside class="sidebar static">
-                <div class="widget">
-                  <h4 class="widget-title">Who's follownig</h4>
-                  <ul class="followers">
-                    <li>
-                      <figure>
-                        <img src="images/resources/friend-avatar2.jpg" alt="" />
-                      </figure>
-                      <div class="friend-meta">
-                        <h4>
-                          <a href="time-line.html" title="">Kelly Bill</a>
-                        </h4>
-                        <a href="#" title="" class="underline">Add Friend</a>
-                      </div>
-                    </li>
-                    <li>
-                      <figure>
-                        <img src="images/resources/friend-avatar4.jpg" alt="" />
-                      </figure>
-                      <div class="friend-meta">
-                        <h4><a href="time-line.html" title="">Issabel</a></h4>
-                        <a href="#" title="" class="underline">Add Friend</a>
-                      </div>
-                    </li>
-                    <li>
-                      <figure>
-                        <img src="images/resources/friend-avatar6.jpg" alt="" />
-                      </figure>
-                      <div class="friend-meta">
-                        <h4><a href="time-line.html" title="">Andrew</a></h4>
-                        <a href="#" title="" class="underline">Add Friend</a>
-                      </div>
-                    </li>
-                    <li>
-                      <figure>
-                        <img src="images/resources/friend-avatar8.jpg" alt="" />
-                      </figure>
-                      <div class="friend-meta">
-                        <h4><a href="time-line.html" title="">Sophia</a></h4>
-                        <a href="#" title="" class="underline">Add Friend</a>
-                      </div>
-                    </li>
-                    <li>
-                      <figure>
-                        <img src="images/resources/friend-avatar3.jpg" alt="" />
-                      </figure>
-                      <div class="friend-meta">
-                        <h4><a href="time-line.html" title="">Allen</a></h4>
-                        <a href="#" title="" class="underline">Add Friend</a>
-                      </div>
-                    </li>
-                  </ul>
-                </div>
                 <!-- who's following -->
                 <div class="widget friend-list stick-widget">
                   <h4 class="widget-title">Friends</h4>

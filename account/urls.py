@@ -13,21 +13,23 @@ urlpatterns = [
     # path('password-change/done/', auth_views.PasswordChangeDoneView.as_view(),
     #      name='password_change_done'),
     # # reset password urls
-    # path('password-reset/', auth_views.PasswordResetView.as_view(),
-    #      name='password_reset'),
-    # path('password-reset/done/', auth_views.PasswordResetDoneView.as_view(),
-    #      name='password_reset_done'),
-    # path('password-reset/<uidb64>/<token>/',
-    #      auth_views.PasswordResetConfirmView.as_view(), name='password_reset_confirm'),
-    # path('password-reset/complete/', auth_views.PasswordResetCompleteView.as_view(),
-    #      name='password_reset_complete'),
+    path('password-reset/', auth_views.PasswordResetView.as_view(template_name="reset/reset_password.html"),
+         name='password_reset'),
+    path('password-reset/done/', auth_views.PasswordResetDoneView.as_view(template_name="reset/password_reset_sent.html"),
+         name='password_reset_done'),
+    path('password-reset/<uidb64>/<token>/',
+         auth_views.PasswordResetConfirmView.as_view(template_name="reset/password_reset_form.html"), name='password_reset_confirm'),
+    path('password-reset/complete/', auth_views.PasswordResetCompleteView.as_view(template_name="reset/password_reset_done.html"),
+         name='password_reset_complete'),
     path('', include('django.contrib.auth.urls')),
-    path('', views.dashboard, name='dashboard'),
+    path('', views.accueil, name='dashboard'),
     path('register/', views.registers, name='register'),
     path('accueil/', views.accueil, name='accueil'),
     path('upload/', views.upload, name='upload'),
     path('like_post?post_id<str:post_id>', views.like_post, name='like_post'),
     path('follow/', views.follow, name='follow'),
+    path('comment/', views.comment, name='comment'),
+
 
 
 
