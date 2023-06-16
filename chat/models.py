@@ -26,6 +26,19 @@ class Thread(models.Model):
     class Meta:
         unique_together = ['first_person', 'second_person']
 
+    def get_other_user(self, user):
+        if user == self.first_person:
+            return self.second_person
+        elif user == self.second_person:
+            return self.first_person
+        return None
+
+    def get_last_message_by_other_user(self, user):
+        other_user = self.first_person if user == self.second_person else self.second_person
+        last_message = self.chatmessage_thread.filter(
+            user=other_user).order_by('-timestamp').first()
+        return last_message
+
 
 class ChatMessage(models.Model):
     thread = models.ForeignKey(Thread, null=True, blank=True,

@@ -1,5 +1,5 @@
 from itertools import chain
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.shortcuts import redirect, render
 from django.contrib.auth import authenticate, login
 from django.contrib.auth import logout
@@ -191,16 +191,19 @@ def follow(request):
 def comment(request):
     user = request.user
     comment = request.POST['comment']
-    post_id = request.POST['post_id']
-    post = Post.objects.get(id=post_id)
-    new_comment = Comment.objects.create(
-        user=user, post=post, body=comment)
-    new_comment.save()
-    user_of_post = User.objects.get(username=post.user)
-    type_of_activity = "Commenter"
-    new_activity = Activity.objects.create(
-        user=user_of_post, activity_type=type_of_activity, related_post=post, other_username=user.username)
-    new_activity.save()
+    if comment:
+        post_id = request.POST['post_id']
+        post = Post.objects.get(id=post_id)
+        new_comment = Comment.objects.create(
+            user=user, post=post, body=comment)
+        new_comment.save()
+        user_of_post = User.objects.get(username=post.user)
+        type_of_activity = "Commenter"
+        new_activity = Activity.objects.create(
+            user=user_of_post, activity_type=type_of_activity, related_post=post, other_username=user.username)
+        new_activity.save()
+    else:
+        pass
     return redirect(request.META.get('HTTP_REFERER'))
 
 
@@ -228,3 +231,13 @@ def edit(request):
                   'account/edit.html',
                   {'user_form': user_form,
                    'profile_form': profile_form})
+
+
+def search_users(request):
+    query = request.GET.get('query', '').strip()
+
+    if not query:
+        return JsonResponse({'message': 'Aucune donnée disponible'})
+
+    users = User.objects.filter(username__icontains=query).values('username')
+    return JsonResponse(list(users), safe=False)

@@ -14,15 +14,23 @@
     <link rel="stylesheet" href="{% static 'css/responsive.css' %}" />
   </head>
   <body>
+    <style>
+      #search-results{
+        position: absolute;
+
+        width: 300px;
+        background: aliceblue;
+      }
+    </style>
     <div class="theme-layout">
       <div class="responsive-header">
         <div class="mh-head first Sticky">
-          <span class="mh-btns-left">
+          <!-- <span class="mh-btns-left">
             <a class="" href="#menu"><i class="fa fa-align-justify"></i></a>
-          </span>
+          </span> -->
           <span class="mh-text">
             <a href="{% url 'dashboard' %}" title=""
-              ><img style="width: 100px;" src="{% static 'images/logoc.png' %}" alt=""
+              ><img style="width: 100px;" src="{% static 'images/logoo.png' %}" alt=""
             /></a>
           </span>
           <span class="mh-btns-right">
@@ -35,7 +43,7 @@
             <a href="#/" class="fa fa-search"></a>
           </form>
         </div>
-        <nav id="menu" class="res-menu">
+        <!-- <nav id="menu" class="res-menu">
           <ul>
             <li>
               <span>Home</span>
@@ -227,114 +235,28 @@
             <li><a href="contact-branches.html" title="">Contact Us2</a></li>
             <li><a href="widgets.html" title="">Widgts</a></li>
           </ul>
-        </nav>
+        </nav> -->
         <nav id="shoppingbag">
           <div>
             <div class="">
-              <form method="post">
                 <div class="setting-row">
-                  <span>use night mode</span>
-                  <input type="checkbox" id="nightmode" />
-                  <label
-                    for="nightmode"
-                    data-on-label="ON"
-                    data-off-label="OFF"
-                  ></label>
+                  <a href="{% url 'setting_accueil' user.username %}" title=""
+                ><i class="ti-user"></i>View profile</a>
+
+       
                 </div>
                 <div class="setting-row">
-                  <span>Notifications</span>
-                  <input type="checkbox" id="switch2" />
-                  <label
-                    for="switch2"
-                    data-on-label="ON"
-                    data-off-label="OFF"
-                  ></label>
+                  <a href="{% url 'account_setting_edit' %}" title=""
+                ><i class="ti-pencil-alt"></i>Edit profile</a>
+
                 </div>
                 <div class="setting-row">
-                  <span>Notification sound</span>
-                  <input type="checkbox" id="switch3" />
-                  <label
-                    for="switch3"
-                    data-on-label="ON"
-                    data-off-label="OFF"
-                  ></label>
+                  <a href="{% url 'logout_user' %}"
+                  ><i class="ti-power-off"></i> logout</a>
+ 
                 </div>
-                <div class="setting-row">
-                  <span>My profile</span>
-                  <input type="checkbox" id="switch4" />
-                  <label
-                    for="switch4"
-                    data-on-label="ON"
-                    data-off-label="OFF"
-                  ></label>
-                </div>
-                <div class="setting-row">
-                  <span>Show profile</span>
-                  <input type="checkbox" id="switch5" />
-                  <label
-                    for="switch5"
-                    data-on-label="ON"
-                    data-off-label="OFF"
-                  ></label>
-                </div>
-              </form>
-              <h4 class="panel-title">Account Setting</h4>
-              <form method="post">
-                <div class="setting-row">
-                  <span>Sub users</span>
-                  <input type="checkbox" id="switch6" />
-                  <label
-                    for="switch6"
-                    data-on-label="ON"
-                    data-off-label="OFF"
-                  ></label>
-                </div>
-                <div class="setting-row">
-                  <span>personal account</span>
-                  <input type="checkbox" id="switch7" />
-                  <label
-                    for="switch7"
-                    data-on-label="ON"
-                    data-off-label="OFF"
-                  ></label>
-                </div>
-                <div class="setting-row">
-                  <span>Business account</span>
-                  <input type="checkbox" id="switch8" />
-                  <label
-                    for="switch8"
-                    data-on-label="ON"
-                    data-off-label="OFF"
-                  ></label>
-                </div>
-                <div class="setting-row">
-                  <span>Show me online</span>
-                  <input type="checkbox" id="switch9" />
-                  <label
-                    for="switch9"
-                    data-on-label="ON"
-                    data-off-label="OFF"
-                  ></label>
-                </div>
-                <div class="setting-row">
-                  <span>Delete history</span>
-                  <input type="checkbox" id="switch10" />
-                  <label
-                    for="switch10"
-                    data-on-label="ON"
-                    data-off-label="OFF"
-                  ></label>
-                </div>
-                <div class="setting-row">
-                  <span>Expose author name</span>
-                  <input type="checkbox" id="switch11" />
-                  <label
-                    for="switch11"
-                    data-on-label="ON"
-                    data-off-label="OFF"
-                  ></label>
-                </div>
-              </form>
+
+
             </div>
           </div>
         </nav>
@@ -344,12 +266,12 @@
       <div class="topbar stick">
         <div class="logo">
           <a title="" href="{% url 'dashboard' %}"
-            ><img src="{% static 'images/mylogoc.png' %}" alt=""
+            ><img src="{% static 'images/logoo.png' %}" alt=""
           /></a>
         </div>
 
         <div class="top-area">
-          <ul class="main-menu">
+          <!-- <ul class="main-menu">
             <li>
               <a href="#" title="">Home</a>
               <ul>
@@ -430,7 +352,7 @@
                 <li><a href="widgets.html" title="">Widgts</a></li>
               </ul>
             </li>
-          </ul>
+          </ul> -->
           <ul class="setting-area">
             <li>
               <a href="#" title="Home" data-ripple=""
@@ -438,8 +360,10 @@
               ></a>
               <div class="searched">
                 <form method="post" class="form-search">
-                  <input type="text" placeholder="Search Friend" />
+                  <input type="text" id="search-input" placeholder="Search Friend" />
                   <button data-ripple><i class="ti-search"></i></button>
+                <ul class="searched" id="search-results"></ul>
+
                 </form>
               </div>
             </li>
@@ -485,82 +409,32 @@
             </li>
             <li>
               <a href="#" title="Messages" data-ripple=""
-                ><i class="ti-comment"></i><span>12</span></a
+                ><i class="ti-comment"></i><span>{{no_discussion}}</span></a
               >
               <div class="dropdowns">
-                <span>5 New Messages</span>
+
+                <span>{{no_discussion}} New Messages</span>
                 <ul class="drops-menu">
+                  {% for data in thread_data %}
                   <li>
-                    <a href="{% url 'login' %}"> test</a>
                     <a href="notifications.html" title="">
                       <img
                         src="{% static 'images/resources/thumb-1.jpg' %}"
                         alt=""
                       />
                       <div class="mesg-meta">
-                        <h6>sarah Loren</h6>
-                        <span>Hi, how r u dear ...?</span>
+                        <h6>{{ data.other_user.username }}</h6>
+
+                            <span>{{ data.last_message.message }}</span>
+
                         <i>2 min ago</i>
                       </div>
                     </a>
                     <span class="tag green">New</span>
                   </li>
-                  <li>
-                    <a href="notifications.html" title="">
-                      <img
-                        src="{% static 'images/resources/thumb-2.jpg' %}"
-                        alt=""
-                      />
-                      <div class="mesg-meta">
-                        <h6>Jhon doe</h6>
-                        <span>Hi, how r u dear ...?</span>
-                        <i>2 min ago</i>
-                      </div>
-                    </a>
-                    <span class="tag red">Reply</span>
-                  </li>
-                  <li>
-                    <a href="notifications.html" title="">
-                      <img
-                        src="{% static 'images/resources/thumb-3.jpg' %}"
-                        alt=""
-                      />
-                      <div class="mesg-meta">
-                        <h6>Andrew</h6>
-                        <span>Hi, how r u dear ...?</span>
-                        <i>2 min ago</i>
-                      </div>
-                    </a>
-                    <span class="tag blue">Unseen</span>
-                  </li>
-                  <li>
-                    <a href="notifications.html" title="">
-                      <img
-                        src="{% static 'images/resources/thumb-4.jpg' %}"
-                        alt=""
-                      />
-                      <div class="mesg-meta">
-                        <h6>Tom cruse</h6>
-                        <span>Hi, how r u dear ...?</span>
-                        <i>2 min ago</i>
-                      </div>
-                    </a>
-                    <span class="tag">New</span>
-                  </li>
-                  <li>
-                    <a href="notifications.html" title="">
-                      <img
-                        src="{% static 'images/resources/thumb-5.jpg' %}"
-                        alt=""
-                      />
-                      <div class="mesg-meta">
-                        <h6>Amy</h6>
-                        <span>Hi, how r u dear ...?</span>
-                        <i>2 min ago</i>
-                      </div>
-                    </a>
-                    <span class="tag">New</span>
-                  </li>
+                  {% endfor %}
+
+
                 </ul>
                 <a href="messages.html" title="" class="more-mesg">view more</a>
               </div>
@@ -609,5 +483,37 @@
     <script src="{% static 'js/main.min.js' %}"></script>
     <script src="{% static 'js/script.js' %}"></script>
     <script src="{% static 'js/map-init.js' %}"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script>
+  $(document).ready(function() {
+    $('#search-input').on('input', function() {
+      var query = $(this).val();
+      $.ajax({
+        url: "{% url 'search_users' %}",  // URL de votre vue Django qui gère la recherche des utilisateurs
+        method: 'GET',
+        data: { 'query': query },  // Envoie la requête de recherche en tant que paramètre GET
+        success: function(data) {
+          if (data.length > 0) {
+          $('#search-results').empty();
+
+            for (var i = 0; i < data.length; i++) {
+              var user = data[i];
+              var name = data[i.username]
+              console.log(name)
+              var listItem ='<a href="' + user.username + '"><span><li>' + user.username + '</li></span></a>';
+              $('#search-results').append(listItem);
+            }
+          } else {
+          $('#search-results').empty();
+
+            $('#search-results').append('<li>Aucune donnée disponible</li>');
+          }
+        }
+      });
+    });
+  });
+</script>
+    
   </body>
 </html>

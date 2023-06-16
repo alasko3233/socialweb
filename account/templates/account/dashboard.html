@@ -133,7 +133,11 @@
                         >
                       </div>
                       <div class="post-meta">
+                        {% if post.image %}
+
                         <img src="{{post.image.url}}" alt="" />
+                        {% else %}
+                        {% endif %}
                         <div class="we-video-info">
                           <ul>
                             <li>
@@ -297,26 +301,10 @@
                                 placeholder="Post your comment"
                               ></textarea>
                               <div class="add-smiles">
-                                <span
-                                  class="em em-expressionless"
-                                  title="add icon"
-                                ></span>
+                                <button type="submit" style="color: blue;">send</button>
+
                               </div>
-                              <div class="smiles-bunch">
-                                <i class="em em---1"></i>
-                                <i class="em em-smiley"></i>
-                                <i class="em em-anguished"></i>
-                                <i class="em em-laughing"></i>
-                                <i class="em em-angry"></i>
-                                <i class="em em-astonished"></i>
-                                <i class="em em-blush"></i>
-                                <i class="em em-disappointed"></i>
-                                <i class="em em-worried"></i>
-                                <i class="em em-kissing_heart"></i>
-                                <i class="em em-rage"></i>
-                                <i class="em em-stuck_out_tongue"></i>img
-                              </div>
-                              <button type="submit">send</button>
+
                             </form>
                           </div>
                         </li>
@@ -327,7 +315,7 @@
 
                 {% endfor %}
 
-                <div class="central-meta item">
+                <!-- <div class="central-meta item">
                   <div class="user-post">
                     <div class="friend-info">
                       <figure>
@@ -858,7 +846,7 @@
                       </ul>
                     </div>
                   </div>
-                </div>
+                </div> -->
               </div>
             </div>
             <!-- centerl meta -->
@@ -882,78 +870,17 @@
                       <span
                         ><i class="ti-comment"></i
                         ><a href="insight.html" title=""
-                          >Messages <em>9</em></a
+                          >Messages <em>{{no_discussion}}</em></a
                         ></span
                       >
                       <span
                         ><i class="ti-bell"></i
                         ><a href="insight.html" title=""
-                          >Notifications <em>2</em></a
+                          >Notifications <em>{{total_activities}}</em></a
                         ></span
                       >
                     </div>
-                    <div class="page-likes">
-                      <ul class="nav nav-tabs likes-btn">
-                        <li class="nav-item">
-                          <a class="active" href="#link1" data-toggle="tab"
-                            >likes</a
-                          >
-                        </li>
-                      </ul>
-                      <!-- Tab panes -->
-                      <div class="tab-content">
-                        <div class="tab-pane active fade show" id="link1">
-                          <span><i class="ti-heart"></i>884</span>
-                          <a href="#" title="weekly-likes"
-                            >35 new likes this week</a
-                          >
-                          <div class="users-thumb-list">
-                            <a href="#" title="Anderw" data-toggle="tooltip">
-                              <img
-                                src="{% static 'images/resources/userlist-1.jpg' %}"
-                                alt=""
-                              />
-                            </a>
-                            <a href="#" title="frank" data-toggle="tooltip">
-                              <img
-                                src="{% static 'images/resources/userlist-2.jpg' %}.jpg"
-                                alt=""
-                              />
-                            </a>
-                            <a href="#" title="Sara" data-toggle="tooltip">
-                              <img
-                                src="{% static 'images/resources/userlist-3.jpg' %}"
-                                alt=""
-                              />
-                            </a>
-                            <a href="#" title="Amy" data-toggle="tooltip">
-                              <img
-                                src="{% static 'images/resources/userlist-4.jpg' %}"
-                                alt=""
-                              />
-                            </a>
-                            <a href="#" title="Ema" data-toggle="tooltip">
-                              <img
-                                src="{% static 'images/resources/userlist-5.jpg' %}"
-                                alt=""
-                              />
-                            </a>
-                            <a href="#" title="Sophie" data-toggle="tooltip">
-                              <img
-                                src="{% static 'images/resources/userlist-6.jpg' %}"
-                                alt=""
-                              />
-                            </a>
-                            <a href="#" title="Maria" data-toggle="tooltip">
-                              <img
-                                src="{% static 'images/resources/userlist-7.jpg' %}"
-                                alt=""
-                              />
-                            </a>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
+
                   </div>
                 </div>
                 <!-- page like widget -->

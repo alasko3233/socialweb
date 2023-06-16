@@ -161,7 +161,12 @@
                         >
                       </div>
                       <div class="post-meta">
+                        {% if post.image %}
+
                         <img src="{{post.image.url}}" alt="" />
+                        {% else %}
+                        {% endif %}
+                        
                         <div class="we-video-info">
                           <ul>
                             <li>
@@ -322,26 +327,10 @@
                                 placeholder="Post your comment"
                               ></textarea>
                               <div class="add-smiles">
-                                <span
-                                  class="em em-expressionless"
-                                  title="add icon"
-                                ></span>
+                                <button type="submit" style="color: blue;">send</button>
+
                               </div>
-                              <div class="smiles-bunch">
-                                <i class="em em---1"></i>
-                                <i class="em em-smiley"></i>
-                                <i class="em em-anguished"></i>
-                                <i class="em em-laughing"></i>
-                                <i class="em em-angry"></i>
-                                <i class="em em-astonished"></i>
-                                <i class="em em-blush"></i>
-                                <i class="em em-disappointed"></i>
-                                <i class="em em-worried"></i>
-                                <i class="em em-kissing_heart"></i>
-                                <i class="em em-rage"></i>
-                                <i class="em em-stuck_out_tongue"></i>img
-                              </div>
-                              <button type="submit">send</button>
+
                             </form>
                           </div>
                         </li>

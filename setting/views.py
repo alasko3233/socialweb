@@ -2,7 +2,9 @@ from django.shortcuts import redirect, render
 from account.models import FollowerCount, Post, Profile
 from django.contrib.auth.models import User
 from django.contrib import messages
+import pdb
 
+from chat.models import Thread
 
 # Create your views here.
 
@@ -31,9 +33,12 @@ def account_setting_edit(request):
             telephone = request.POST['telephone']
             genre = request.POST['genre']
             birtdhay = request.POST['birtdhay']
+            if birtdhay:
+                user_setting.date_of_birth = birtdhay
+            else:
+                pass
             photos = user_setting.photo
             user_setting.bio = about
-            user_setting.date_of_birth = birtdhay
             user_setting.genre = genre
             user_setting.telephone = telephone
             user_setting.pays = pays
@@ -51,8 +56,11 @@ def account_setting_edit(request):
             genre = request.POST['genre']
             birtdhay = request.POST['birtdhay']
             photos = request.FILES.get('photo')
+            if birtdhay:
+                user_setting.date_of_birth = birtdhay
+            else:
+                pass
             user_setting.bio = about
-            user_setting.date_of_birth = birtdhay
             user_setting.genre = genre
             user_setting.telephone = telephone
             user_setting.pays = pays
@@ -68,6 +76,8 @@ def account_setting_edit(request):
 
 def setting_accueil(request, pk):
     user_follings = FollowerCount.objects.filter(
+        user_name=pk)
+    friends = FollowerCount.objects.filter(
         user_name=pk)
     user_object = User.objects.get(username=pk)
     profil_of_user = Profile.objects.get(user=user_object)
@@ -109,6 +119,41 @@ def post(request):
     new_post.save()
     messages.info(request, 'Post publié')
     return redirect('accueil')
+
+
+def cover(request):
+    user = request.user
+    user_setting = Profile.objects.get(user=request.user)
+    cover = request.FILES.get('cover')
+    user_setting.cover = cover
+    user.save()
+    user_setting.save()
+    messages.info(request, 'couverture changer')
+    return redirect(request.META.get('HTTP_REFERER'))
+
+
+def renitialiser(request):
+    user = request.user
+    user_setting = Profile.objects.get(user=request.user)
+    user_setting.cover = None
+    user_setting.save()
+    messages.info(request, 'couverture changer')
+    return redirect(request.META.get('HTTP_REFERER'))
+
+
+def send_message(request, pk):
+    user = request.user
+    user_object = User.objects.get(username=pk)
+    if Thread.objects.filter(first_person=user, second_person=user_object).first():
+        return redirect('chat')
+    elif Thread.objects.filter(first_person=user_object, second_person=user).first():
+        return redirect('chat')
+    else:
+        new_thread = Thread.objects.create(
+            first_person=user, second_person=user_object)
+        new_thread.save()
+        return redirect('chat')
+    return redirect('chat')
 
 
 def profile(request, pk):

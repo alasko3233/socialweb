@@ -26,13 +26,14 @@ urlpatterns = [
     path('register/', views.registers, name='register'),
     path('accueil/', views.accueil, name='accueil'),
     path('upload/', views.upload, name='upload'),
+
     path('like_post?post_id<str:post_id>', views.like_post, name='like_post'),
     path('follow/', views.follow, name='follow'),
     path('comment/', views.comment, name='comment'),
 
 
 
-
+    path('account/search-users/', views.search_users, name='search_users'),
     path('logout_user/', views.logout_user, name='logout_user'),
 
 

@@ -9,6 +9,11 @@ urlpatterns = [
     path('amis/<str:pk>', views.setting_amis, name='setting_amis'),
     path('profile/<str:pk>', views.profile, name='profile'),
     path('post/', views.post, name='post'),
+    path('cover/', views.cover, name='cover'),
+    path('renitialiser/', views.renitialiser, name='renitialiser'),
+    path('send_message/<str:pk>', views.send_message, name='send_message'),
+
+
 
 
 
