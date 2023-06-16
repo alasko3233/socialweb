@@ -33,6 +33,10 @@ class Profile(models.Model):
             img = Image.open(self.cover.path)
             img = img.resize((1366, 400))
             img.save(self.cover.path)
+        if self.photo:
+            img = Image.open(self.cover.path)
+            img = img.resize((512, 512))
+            img.save(self.cover.path)
 
 
 class Post(models.Model):

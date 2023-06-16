@@ -1,16 +1,16 @@
-let loc = window.location
-console.log('je suis la');
+let loc = window.location;
+console.log('je suis là');
 
-let wsStar =  'ws://'
-let input_message = $('#input-message')
-let message_body = $('.msg_card_body')
-let send_message_form = $('#send-message-form')
-const USER_ID = $('#logged-in-user').val()
-if (loc.protocol === 'https'){
-let wsStar =  'wss://'
-} 
-let endpoint = wsStar + loc.host + loc.pathname
-var socket = new WebSocket(endpoint)
+let wsStar = 'ws://';
+let input_message = $('#input-message');
+let message_body = $('.msg_card_body');
+let send_message_form = $('#send-message-form');
+const USER_ID = $('#logged-in-user').val();
+if (loc.protocol === 'https:') {
+  wsStar = 'wss://';
+}
+let endpoint = wsStar + loc.host + loc.pathname;
+var socket = new WebSocket(endpoint);
 
 socket.onopen = async function(e){
     console.log('open', e);
