@@ -6,7 +6,7 @@ def profile_context(request):
     profile = None
     activities = None
     total_activities = None
-
+    threads = None
     if request.user.is_authenticated:
         try:
             profile = Profile.objects.get(user=request.user)
