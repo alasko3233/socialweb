@@ -165,7 +165,7 @@ function get_active_other_user_id(){
     
     // Afficher l'ID du thread dans la console
     console.log('thread_id', thread_id);
-    
+     
     // Retourner l'ID du thread
     return thread_id;
  }
