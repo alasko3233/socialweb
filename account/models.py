@@ -9,15 +9,15 @@ from PIL import Image
 
 
 class Profile(models.Model):
-    user = models.OneToOneField(settings.AUTH_USER_MODEL,
-                                on_delete=models.CASCADE)
+    user = models.OneToOneField(
+        settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     id_user = models.IntegerField(null=True)
     date_of_birth = models.TextField(blank=True, null=True)
     bio = models.TextField(blank=True)
-    photo = models.ImageField(upload_to='users/profile/%Y/%m/',
-                              blank=True, null=True)
-    cover = models.ImageField(upload_to='users/cover/%Y/%m/',
-                              blank=True, null=True)
+    photo = models.ImageField(
+        upload_to='users/profile/%Y/%m/', blank=True, null=True)
+    cover = models.ImageField(
+        upload_to='users/cover/%Y/%m/', blank=True, null=True)
     ville = models.CharField(max_length=100, blank=True, null=True)
     pays = models.CharField(max_length=100, blank=True, null=True)
     telephone = models.IntegerField(blank=True, null=True)
@@ -29,14 +29,20 @@ class Profile(models.Model):
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
 
+        # Redimensionner l'image de couverture lors de la sauvegarde
         if self.cover:
             img = Image.open(self.cover.path)
             img = img.resize((1366, 400))
             img.save(self.cover.path)
+
+        # Redimensionner la photo de profil lors de la sauvegarde
         if self.photo:
             img = Image.open(self.cover.path)
             img = img.resize((512, 512))
             img.save(self.cover.path)
+# Le modèle Profile représente le profil d'un utilisateur. Il est lié à un utilisateur spécifique via une relation OneToOneField avec settings.AUTH_USER_MODEL. Les champs incluent des informations telles que la date de naissance, la biographie, la photo de profil, la photo de couverture, la ville, le pays, le numéro de téléphone et le genre.
+# La méthode __str__ retourne une représentation sous forme de chaîne du profil, utilisant le nom d'utilisateur de l'utilisateur associé.
+# La méthode save est surchargée pour redimensionner automatiquement l'image de couverture et la photo de profil lors de la sauvegarde du profil. Les images sont ouvertes à l'aide du module PIL, redimensionnées selon les dimensions spécifiées, puis sauvegardées.
 
 
 class Post(models.Model):
@@ -60,6 +66,8 @@ class Post(models.Model):
     def get_comment_count(self):
         comment_count = Comment.objects.filter(post=self).count()
         return comment_count
+
+# Les méthodes get_comments et get_comment_count permettent de récupérer les commentaires associés à la publication et de compter le nombre de commentaires.
 
 
 class LikePost(models.Model):
@@ -90,6 +98,7 @@ class FollowerCount(models.Model):
         if profile and profile.photo:
             return profile.photo.url
         return None
+# Les méthodes get_user_profile et get_user_profile_image_url permettent de récupérer le profil utilisateur et l'URL de l'image de profil associés à l'utilisateur qui suit.
 
 
 class Comment(models.Model):
@@ -114,6 +123,8 @@ class Comment(models.Model):
         if profile and profile.photo:
             return profile.photo.url
         return None
+
+# Les méthodes get_username, get_user_profile et get_user_profile_image_url permettent de récupérer le nom d'utilisateur, le profil utilisateur et l'URL de l'image de profil associés au commentaire.
 
 
 class Activity(models.Model):
@@ -140,3 +151,5 @@ class Activity(models.Model):
         if profile and profile.photo:
             return profile.photo.url
         return None
+
+# Les méthodes other_user_profile et other_user_profile_image_url permettent de récupérer le profil utilisateur et l'URL de l'image de profil de l'autre utilisateur associé à l'activité.

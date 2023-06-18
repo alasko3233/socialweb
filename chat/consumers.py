@@ -13,19 +13,24 @@ User = get_user_model()
 
 class ChatConsumer(AsyncConsumer):
     async def websocket_connect(self, event):
+        # Cette fonction est appelée lorsque la connexion WebSocket est établie
         print('connected', event)
+        # Récupérer l'utilisateur à partir du contexte de la connexion
         user = self.scope['user']
+        # Générer un nom de salon de discussion unique basé sur l'ID de l'utilisateur
         chat_room = f'user_chat_room_{user.id}'
+        # Stocker le nom du salon de discussion dans l'instance du consommateur
         self.chat_room = chat_room
         await self.channel_layer.group_add(
             chat_room,
             self.channel_name
-        )
+        )  # Ajouter le canal du consommateur au groupe du salon de discussion
         await self.send({
             'type': 'websocket.accept',
-        })
+        })  # Accepter la connexion WebSocket
 
     async def websocket_receive(self, event):
+        # Réception d'un message depuis le websocket
         print('receive', event)
         received_data = json.loads(event['text'])
         msg = received_data.get('message')
@@ -80,9 +85,11 @@ class ChatConsumer(AsyncConsumer):
         # })
 
     async def websocket_disconnect(self, event):
+        # Déconnexion du websocket
         print('disconnect', event)
 
     async def chat_message(self, event):
+        # Envoi d'un message dans le chat
         print('chat_message', event)
         await self.send({
             'type': 'websocket.send',
@@ -91,6 +98,7 @@ class ChatConsumer(AsyncConsumer):
 
     @database_sync_to_async
     def get_user_objects(self, user_id):
+        # Récupérer un objet utilisateur de la base de données de manière asynchrone
         qs = User.objects.filter(id=user_id)
         if qs.exists():
             obj = qs.first()
@@ -100,6 +108,7 @@ class ChatConsumer(AsyncConsumer):
 
     @database_sync_to_async
     def get_thread(self, thread_id):
+        # Récupérer un objet Thread de la base de données de manière asynchrone
         qs = Thread.objects.filter(id=thread_id)
         if qs.exists():
             obj = qs.first()
@@ -109,4 +118,5 @@ class ChatConsumer(AsyncConsumer):
 
     @database_sync_to_async
     def create_chat_message(self, thread, user, msg):
+        # Créer un nouveau message dans le chat de manière asynchrone
         ChatMessage.objects.create(thread=thread, user=user, message=msg)

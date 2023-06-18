@@ -134,19 +134,21 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = 'static/'  # URL de base pour les fichiers statiques
+# Répertoire de destination des fichiers statiques collectés
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+# Répertoires supplémentaires contenant des fichiers statiques
 STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),)
+# Répertoire de destination des fichiers multimédias téléchargés
 MEDIA_ROOT = BASE_DIR / "media"
-MEDIA_URL = '/media/'
-# Default primary key field type
-# https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
+MEDIA_URL = '/media/'  # URL de base pour les fichiers multimédias
 
+# Type de champ de clé primaire par défaut
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-LOGIN_REDIRECT_URL = 'dashboard'
-LOGIN_URL = 'login'
-LOGOUT_URL = 'logout'
+LOGIN_REDIRECT_URL = 'dashboard'  # URL de redirection après une connexion réussie
+LOGIN_URL = 'login'  # URL de la page de connexion
+LOGOUT_URL = 'logout'  # URL de la page de déconnexion
 
 CHANNEL_LAYERS = {
     'default': {
@@ -157,10 +159,16 @@ CHANNEL_LAYERS = {
     }
 }
 
+# Configuration des paramètres de messagerie
+# Backend de messagerie utilisé pour l'envoi d'e-mails
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'mail.mali-dev.site'
-EMAIL_PORT = 465
+EMAIL_HOST = 'mail.mali-dev.site'  # Hôte du serveur de messagerie
+EMAIL_PORT = 465  # Port du serveur de messagerie
+# Nom d'utilisateur du compte de messagerie
 EMAIL_HOST_USER = 'contact@mali-dev.site'
+# Mot de passe du compte de messagerie
 EMAIL_HOST_PASSWORD = 'contact@654321AM!'
+# Utilisation de TLS pour la connexion sécurisée au serveur de messagerie
 EMAIL_USE_TLS = True
+# Adresse e-mail par défaut pour l'envoi des e-mails
 DEFAULT_FROM_EMAIL = 'contact@mali-dev.site'

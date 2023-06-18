@@ -24,3 +24,7 @@ application = ProtocolTypeRouter({
         )
     )
 })
+
+# get_asgi_application est une fonction utilitaire fournie par Django qui permet de charger l'application ASGI (Asynchronous Server Gateway Interface). L'ASGI est une interface standard pour les serveurs Web permettant de gérer des connexions asynchrones, telles que les connexions WebSocket.
+
+# La fonction get_asgi_application retourne une instance de l'application Django configurée pour fonctionner avec l'ASGI. Cette application peut ensuite être utilisée par un serveur ASGI pour gérer les requêtes entrantes.

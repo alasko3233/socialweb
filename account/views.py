@@ -13,111 +13,84 @@ from django.contrib.auth.models import User
 
 def loginn(request):
     if request.method == 'POST':
+        # Récupération du nom d'utilisateur et du mot de passe depuis la requête POST
         username = request.POST['username']
         password = request.POST['password']
+
+        # Authentification de l'utilisateur
         user = authenticate(username=username, password=password)
+
+        # Vérification si l'utilisateur existe
         if user is not None:
+            # Vérification si le compte de l'utilisateur est actif
             if user.is_active:
+                # Connexion de l'utilisateur
                 login(request, user)
                 return redirect('accueil')
             else:
-                messages.info(request, 'votre compte est desactiver')
+                # Le compte de l'utilisateur est désactivé
+                messages.info(request, 'Votre compte est désactivé')
                 return redirect('login')
         else:
-            messages.info(request, 'email ou mot de passe incorrect')
+            # Nom d'utilisateur ou mot de passe incorrect
+            messages.info(request, 'Email ou mot de passe incorrect')
             return redirect('login')
     else:
+        # Affichage de la page de connexion
         return render(request, 'account/login1.html')
 
 
 def registers(request):
     if request.method == 'POST':
+        # Récupération du nom d'utilisateur, de l'e-mail et des mots de passe depuis la requête POST
         username = request.POST['username']
         email = request.POST['email']
         password = request.POST['password']
         password2 = request.POST['password2']
-        # verifier si les 2 mots de passe sont identique
+
+        # Vérification si les deux mots de passe sont identiques
         if password == password2:
-            # verifier si l email existe deja
+            # Vérification si l'e-mail existe déjà
             if User.objects.filter(email=email).exists():
-                messages.info(request, 'cet email est deja utilisé')
+                messages.info(request, 'Cet email est déjà utilisé')
                 return redirect('register')
-        # verifier si cet username existe deja
+            # Vérification si le nom d'utilisateur existe déjà
             elif User.objects.filter(username=username).exists():
-                messages.info(request, 'cet username est deja utilisé')
+                messages.info(
+                    request, 'Cet nom d\'utilisateur est déjà utilisé')
                 return redirect('register')
             else:
-                # Creation de l'utilisateur
+                # Création de l'utilisateur
                 user = User.objects.create_user(
                     username=username, email=email, password=password)
                 user.save()
-            # Creation de son profile
-            user_model = User.objects.get(username=username)
-            new_profile = Profile.objects.create(
-                user=user_model, id_user=user_model.id)
-            new_profile.save()
-            return redirect('login')
-            # new_user = user_form.save(commit=False)
-            pass
+
+                # Création du profil de l'utilisateur
+                user_model = User.objects.get(username=username)
+                new_profile = Profile.objects.create(
+                    user=user_model, id_user=user_model.id)
+                new_profile.save()
+
+                return redirect('login')
         else:
-            messages.info(request, 'Les mots de passe sont pas identique')
+            # Les mots de passe ne sont pas identiques
+            messages.info(request, 'Les mots de passe ne sont pas identiques')
             return redirect('register')
 
+    # Affichage de la page d'inscription
     return render(request, 'account/register1.html')
 
 
 def logout_user(request):
+    # Déconnexion de l'utilisateur
     logout(request)
     return redirect('login')
 
 
-def upload(request):
-    return render(request, 'account/register1.html')
-
-
-def user_login(request):
-    if request.method == 'POST':
-        form = LoginForm(request.POST)
-        if form.is_valid():
-            cd = form.cleaned_data
-            user = authenticate(
-                request, username=cd['username'], password=cd['password'])
-            if user is not None:
-                if user.is_active:
-                    login(request, user)
-                    return HttpResponse('Authentification réussie')
-                else:
-                    return HttpResponse('Compte désactivé')
-            else:
-                return HttpResponse('Identifiants de connexion invalides')
-    else:
-        form = LoginForm()
-    return render(request, 'account/login.html', {'form': form})
-
-
-def register(request):
-    if request.method == 'POST':
-        user_form = UserRegistrationForm(request.POST)
-        if user_form.is_valid():
-         # Create a new user object but avoid saving it yet
-            new_user = user_form.save(commit=False)
- # Set the chosen password
-            new_user.set_password(user_form.cleaned_data['password'])
- # Save the User object
-            new_user.save()
-            # Create the user profile
-            Profile.objects.create(user=new_user)
-            return render(request, 'account/register_done.html', {'new_user': new_user})
-    else:
-        user_form = UserRegistrationForm()
-        return render(request, 'account/register.html', {'user_form': user_form})
-
-
 @login_required
-def dashboard(request):
-    posts = Post.objects.all()
-    context = {'posts': posts}
-    return render(request, 'account/dashboard.html', context)
+def upload(request):
+    # Affichage de la page de téléchargement (accessible uniquement aux utilisateurs connectés)
+    return render(request, 'account/register1.html')
 
 
 @login_required
@@ -126,20 +99,26 @@ def accueil(request):
 
     user_follows_list = []
     feed = []
+
+    # Récupération de la liste des utilisateurs suivis par l'utilisateur actuel
     user_follings = FollowerCount.objects.filter(
         user_name=request.user.username)
 
+    # Récupération de la liste des utilisateurs qui suivent l'utilisateur actuel
     user_folling = FollowerCount.objects.filter(follower=request.user.username)
 
+    # Construction du fil d'actualité en récupérant les publications des utilisateurs suivis
     for user in user_folling:
         user_follows_list.append(user.user_name)
 
     for usernames in user_follows_list:
         feed_list = Post.objects.filter(user_name=usernames)
         feed.append(feed_list)
+
+    # Concaténation de toutes les publications pour afficher dans le fil d'actualité
     feed_lists = list(chain(*feed))
-    # posts = Post.objects.all()
-    print(user_login)
+
+    # Préparation du contexte pour le rendu de la page
     context = {
         'posts': feed_lists,
         'user_follings': user_follings
@@ -152,19 +131,29 @@ def accueil(request):
 def like_post(request, post_id):
     user = request.user
     post = Post.objects.get(id=post_id)
+
+    # Vérification si l'utilisateur a déjà aimé la publication
     like_filter = LikePost.objects.filter(post_id=post.id, user=user).first()
 
     if like_filter == None:
+        # L'utilisateur n'a pas encore aimé la publication
         new_like = LikePost.objects.create(
             post_id=post.id, user=user, user_name=user.username)
         new_like.save()
+
+        # Mise à jour du nombre de likes de la publication
         post.no_of_likes = post.no_of_likes+1
         post.save()
+
         return redirect(request.META.get('HTTP_REFERER'))
     else:
+        # L'utilisateur a déjà aimé la publication, donc on supprime le like
         like_filter.delete()
+
+        # Mise à jour du nombre de likes de la publication
         post.no_of_likes = post.no_of_likes-1
         post.save()
+
         return redirect(request.META.get('HTTP_REFERER'))
 
 
@@ -173,12 +162,16 @@ def follow(request):
     if request.method == 'POST':
         follower = request.POST['follower']
         userfollow = request.POST['userfollow']
+
+        # Vérification si l'utilisateur actuel suit déjà l'utilisateur donné
         if FollowerCount.objects.filter(follower=follower, user_name=userfollow).first():
+            # L'utilisateur actuel suit déjà l'utilisateur donné, donc on supprime le suivi
             delete_follower = FollowerCount.objects.get(
                 follower=follower, user_name=userfollow)
             delete_follower.delete()
             return redirect('setting_accueil', userfollow)
         else:
+            # L'utilisateur actuel ne suit pas encore l'utilisateur donné, donc on ajoute le suivi
             new_follower = FollowerCount.objects.create(
                 follower=follower, user_name=userfollow, user=request.user)
             new_follower.save()
@@ -191,53 +184,64 @@ def follow(request):
 def comment(request):
     user = request.user
     comment = request.POST['comment']
+
     if comment:
         post_id = request.POST['post_id']
         post = Post.objects.get(id=post_id)
+
+        # Création du commentaire pour la publication donnée
         new_comment = Comment.objects.create(
             user=user, post=post, body=comment)
         new_comment.save()
+
         user_of_post = User.objects.get(username=post.user)
         type_of_activity = "Commenter"
+
+        # Création de l'activité associée au commentaire
         new_activity = Activity.objects.create(
             user=user_of_post, activity_type=type_of_activity, related_post=post, other_username=user.username)
         new_activity.save()
     else:
         pass
+
     return redirect(request.META.get('HTTP_REFERER'))
 
 
 @login_required
 def edit(request):
     if request.method == 'POST':
-        user_form = UserEditForm(instance=request.user,
-                                 data=request.POST)
+        # Récupération des données de modification de l'utilisateur depuis la requête POST
+        user_form = UserEditForm(instance=request.user, data=request.POST)
         profile_form = ProfileEditForm(
-            instance=request.user.profile,
-            data=request.POST,
-            files=request.FILES)
+            instance=request.user.profile, data=request.POST, files=request.FILES)
+
+        # Vérification si les formulaires de modification sont valides
         if user_form.is_valid() and profile_form.is_valid():
+            # Sauvegarde des modifications de l'utilisateur et de son profil
             user_form.save()
             profile_form.save()
-            messages.success(request, 'Profile updated '
-                             'successfully')
+
+            messages.success(request, 'Profil mis à jour avec succès')
         else:
-            messages.error(request, 'Error updating your profile')
+            messages.error(
+                request, 'Erreur lors de la mise à jour de votre profil')
     else:
+        # Affichage des formulaires de modification de l'utilisateur et de son profil
         user_form = UserEditForm(instance=request.user)
         profile_form = ProfileEditForm(
             instance=request.user.profile)
-    return render(request,
-                  'account/edit.html',
-                  {'user_form': user_form,
-                   'profile_form': profile_form})
+
+    return render(request, 'account/edit.html', {'user_form': user_form, 'profile_form': profile_form})
 
 
+@login_required
 def search_users(request):
     query = request.GET.get('query', '').strip()
 
     if not query:
         return JsonResponse({'message': 'Aucune donnée disponible'})
 
+    # Recherche des utilisateurs dont le nom d'utilisateur contient la requête de recherche
     users = User.objects.filter(username__icontains=query).values('username')
+
     return JsonResponse(list(users), safe=False)
