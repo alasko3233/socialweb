@@ -17,7 +17,7 @@ os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'socialweb.settings')
 
 # application = get_asgi_application()
 application = ProtocolTypeRouter({
-    'https': get_asgi_application(),
+    'http': get_asgi_application(),
     'websocket': AuthMiddlewareStack(
         URLRouter(
             chat.routing.websocket_urlpatterns
