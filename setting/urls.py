@@ -14,7 +14,9 @@ urlpatterns = [
     path('send_message/<str:pk>', views.send_message, name='send_message'),
 
 
-
-
+    path('edit_password/', views.edit_password,
+         name='edit_password'),
+    path('update_password/', views.update_password,
+         name='update_password'),
 
 ]

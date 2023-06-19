@@ -663,7 +663,7 @@
     
                 for (var i = 0; i < data.length; i++) {
                   var user = data[i];
-                  var listItem = '<a href="' + user.username + '"><span><li>' + user.username + '</li></span></a>';
+                  var listItem = '<li><a class="btn btn-light custom" href="' + user.username + '">' + user.username + '</a></li>';
                   $('#search-results').append(listItem);
                 }
               } else {

@@ -45,6 +45,7 @@
               <div class="central-meta">
                 <ul class="photos">
                   {% for post in posts %}
+                  {% if post.image %}
 
                   <li>
                     <a
@@ -57,6 +58,7 @@
                       <img src="{{post.image.url}}" alt=""
                     /></a>
                   </li>
+                  {% endif %}
                   {% endfor %}
                 </ul>
                 <div class="lodmore">

@@ -407,3 +407,81 @@ def setting_about(request, pk):
 
     # Rendu du template pour la page des informations
     return render(request, 'settings/pages/about.html', context)
+
+
+def edit_password(request):
+    # Fonction pour afficher les informations sur l'utilisateur
+    user = request.user
+
+    user_object = User.objects.get(username=user.username)
+    profil_of_user = Profile.objects.get(user=user_object)
+    posts_user = Post.objects.filter(user=user_object)
+
+    follower = request.user.username
+
+    # Vérification si l'utilisateur actuel suit l'utilisateur des informations
+    if FollowerCount.objects.filter(user_name=user.username, follower=follower).first():
+        btn = 'Unfollow'
+    else:
+        btn = 'Follow'
+
+    # Vérification si l'utilisateur actuel est le même que l'utilisateur des informations
+    if user_object == request.user:
+        identique = user_object
+    else:
+        identique = None
+
+    # Calcul du nombre de followers et followings de l'utilisateur des informations
+    user_followers = len(FollowerCount.objects.filter(follower=user.username))
+    user_followings = len(
+        FollowerCount.objects.filter(user_name=user.username))
+
+    # Création du contexte avec les données à transmettre au template
+    context = {
+        'userS': user_object,
+        'posts': posts_user,
+        'profil_of_user': profil_of_user,
+        'identique': identique,
+        'btn': btn,
+        'user_followers': user_followers,
+        'user_followings': user_followings,
+    }
+
+    # Rendu du template pour la page des informations
+    return render(request, 'settings/pages/edit_password.html', context)
+
+
+def update_password(request):
+    user = request.user
+    if request.method == 'POST':
+        new_password = request.POST.get('new_password')
+        new_password2 = request.POST.get('new_password2')
+        old_password = request.POST.get('old_password')
+
+        # Vérifier si les mots de passe entrés correspondent
+        if new_password == new_password2:
+            # Vérifier si le mot de passe actuel est correct
+            if request.user.check_password(old_password):
+                # Mettre à jour le mot de passe de l'utilisateur
+                request.user.set_password(new_password)
+                request.user.save()
+                # Rediriger vers une page de succès ou afficher un message de succès
+
+                # Exemple de redirection vers la page d'accueil
+                messages.success(request, "Mot de passe changé avec success")
+
+                return redirect('setting_accueil', user.username)
+            else:
+                # Le mot de passe actuel est incorrect, afficher un message d'erreur
+                messages.error(
+                    request, "L'ancien mot de passe n'est pas correct.")
+                return redirect('edit_password')
+
+        else:
+            # Les mots de passe entrés ne correspondent pas, afficher un message d'erreur
+            messages.error(
+                request, "Les nouveaux mots de passe de sont pas identiques.")
+            return redirect('edit_password')
+
+    # Si la méthode de requête n'est pas POST ou si une erreur s'est produite, rediriger vers la page du formulaire
+    return redirect('setting_accueil', user.username)

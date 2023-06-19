@@ -457,7 +457,8 @@
             {% else %}
             <img src="{% static 'default/user.png' %}" alt="" />
 
-            {% endif %}            <span class="status f-online"></span>
+            {% endif %}
+                        <span class="status f-online"></span>
             <div class="user-setting">
               <a href="#" title=""
                 ><span class="status f-online"></span>online</a
@@ -501,7 +502,7 @@
               var user = data[i];
               var name = data[i.username]
               console.log(name)
-              var listItem ='<a href="' + user.username + '"><span><li>' + user.username + '</li></span></a>';
+              var listItem ='<li><a class="btn btn-light custom" href="/account_setting/accueil/' + user.username + '">' + user.username + '</a></li>';
               $('#search-results').append(listItem);
             }
           } else {

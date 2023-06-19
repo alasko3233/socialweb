@@ -5,6 +5,9 @@ from datetime import datetime
 from django.contrib.auth.models import User
 from django.contrib.auth.models import AbstractUser
 from PIL import Image
+from django.core.files.storage import default_storage
+from django.core.files.base import ContentFile
+
 # Create your models here.
 
 
@@ -25,24 +28,7 @@ class Profile(models.Model):
 
     def __str__(self):
         return f'Profile of {self.user.username}'
-
-    def save(self, *args, **kwargs):
-        super().save(*args, **kwargs)
-
-        # Redimensionner l'image de couverture lors de la sauvegarde
-        if self.cover:
-            img = Image.open(self.cover.path)
-            img = img.resize((1366, 400))
-            img.save(self.cover.path)
-
-        # Redimensionner la photo de profil lors de la sauvegarde
-        if self.photo:
-            img = Image.open(self.cover.path)
-            img = img.resize((512, 512))
-            img.save(self.cover.path)
-# Le modèle Profile représente le profil d'un utilisateur. Il est lié à un utilisateur spécifique via une relation OneToOneField avec settings.AUTH_USER_MODEL. Les champs incluent des informations telles que la date de naissance, la biographie, la photo de profil, la photo de couverture, la ville, le pays, le numéro de téléphone et le genre.
-# La méthode __str__ retourne une représentation sous forme de chaîne du profil, utilisant le nom d'utilisateur de l'utilisateur associé.
-# La méthode save est surchargée pour redimensionner automatiquement l'image de couverture et la photo de profil lors de la sauvegarde du profil. Les images sont ouvertes à l'aide du module PIL, redimensionnées selon les dimensions spécifiées, puis sauvegardées.
+# r automatiquement l'image de couverture et la photo de profil lors de la sauvegarde du profil. Les images sont ouvertes à l'aide du module PIL, redimensionnées selon les dimensions spécifiées, puis sauvegardées.
 
 
 class Post(models.Model):
